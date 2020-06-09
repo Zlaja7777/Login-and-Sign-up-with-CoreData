@@ -28,16 +28,17 @@ class UserController: UIViewController, UITextFieldDelegate {
       
         userName?.delegate = self;
         password?.delegate = self;
+        
         fullName?.delegate = self;
         email?.delegate = self;
         passwordSP?.delegate = self;
         
     }
     
-    func checkUser(userName: String, password: String, users: [NSManagedObject])-> Bool{
+    func checkUser(email: String, password: String, users: [NSManagedObject])-> Bool{
         //cheking authentication (need to upgrade)
         for u in users {
-            if u.value(forKey: "fullName") as! String == userName &&
+            if u.value(forKey: "email") as! String == email &&
                 password == u.value(forKey: "password") as!String
             {
                 return true
@@ -70,8 +71,8 @@ class UserController: UIViewController, UITextFieldDelegate {
          //the name says it all
        
         getUsers();
-        
-        if checkUser(userName: userName.text!, password: password.text!, users: users) {
+        print(email.text!);
+        if checkUser(email: email.text!, password: password.text!, users: users) {
            //"Dodati label"
         }
         else{
@@ -92,7 +93,7 @@ class UserController: UIViewController, UITextFieldDelegate {
         var alertController: UIAlertController;
         let okAction = UIAlertAction(title: "OK", style: .default)
         if check == "signIN" {
-             alertController = UIAlertController(title: "", message:"The username and password doesn't match any account. Please, try again.", preferredStyle: .alert)
+             alertController = UIAlertController(title: "", message:"The email and password doesn't match any account. Please, try again.", preferredStyle: .alert)
              alertController.addAction(okAction)
             return alertController;
         }
