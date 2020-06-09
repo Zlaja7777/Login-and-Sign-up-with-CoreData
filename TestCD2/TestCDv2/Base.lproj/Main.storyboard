@@ -104,6 +104,9 @@
                         <viewLayoutGuide key="safeArea" id="31u-VG-38v"/>
                     </view>
                     <navigationItem key="navigationItem" id="fmh-CN-kGz"/>
+                    <connections>
+                        <outlet property="welcomeMessage" destination="KCv-Jc-B14" id="2Ek-TU-5dR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VPC-Gs-2jV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

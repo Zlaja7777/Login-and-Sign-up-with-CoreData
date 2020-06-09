@@ -18,9 +18,9 @@ class UserController: UIViewController, UITextFieldDelegate {
     @IBOutlet var email: UITextField!
     @IBOutlet var passwordSP: UITextField!
     
-    @IBOutlet var loggedUser: UILabel!
     
-  
+    @IBOutlet var welcomeMessage: UILabel!
+    
     var users: [NSManagedObject] = [];
 
     override func viewDidLoad() {
@@ -32,6 +32,7 @@ class UserController: UIViewController, UITextFieldDelegate {
         fullName?.delegate = self;
         email?.delegate = self;
         passwordSP?.delegate = self;
+        
         
     }
     
@@ -66,14 +67,26 @@ class UserController: UIViewController, UITextFieldDelegate {
             print("Could not fetch.")
         }
     }
-    
+
+    func checkInputInSingIn(email: String, password: String) -> Bool{
+        if email == "" || password == "" {
+            return false;
+        }
+        return true;
+    }
     @IBAction func SING_IN(_ sender: Any) {
          //the name says it all
        
         getUsers();
-        print(email.text!);
+        
+        if checkInputInSingIn(email: email.text!, password: password.text!) == false {
+            let login = storyboard?.instantiateViewController(identifier: "LoginSB");
+            present(showPopUp(check: "emptySignIn"), animated: true, completion: nil);
+            present(login!, animated: false, completion: nil);
+        }
+        
         if checkUser(email: email.text!, password: password.text!, users: users) {
-           //"Dodati label"
+            print("Welcome message!");
         }
         else{
             
@@ -102,8 +115,19 @@ class UserController: UIViewController, UITextFieldDelegate {
           alertController.addAction(okAction)
             return alertController;
         }
-        alertController = UIAlertController(title: "", message:"", preferredStyle: .alert)
+        else if check == "emptySignIn" {
+            alertController = UIAlertController(title: "", message:"Fill the text boxes with your Login creditentials.", preferredStyle: .actionSheet)
+            alertController.addAction(okAction)
+            return alertController;
+        }
+        else if check == "emptySignUp"{
+            alertController = UIAlertController(title: "", message:"All the text boxes are required to be filled with your future creditentials.", preferredStyle: .actionSheet)
+            alertController.addAction(okAction)
+            return alertController;
+        }
         
+        
+        alertController = UIAlertController(title: "", message:"", preferredStyle: .alert)
         return alertController;
         
        
@@ -120,13 +144,21 @@ class UserController: UIViewController, UITextFieldDelegate {
         return false;
     }
     
-//    func checkFields(email: String){
-//        textField.attributedPlaceholder = NSAttributedString(string: "Required!",
-//                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]);
-//    }
+    func checkInputSignUp(fullName: String, email: String, password: String) -> Bool {
+        if fullName == "" || email == "" || password == "" {
+            return false;
+        }
+        return true;
+    }
     @IBAction func SING_UP(_ sender: Any) {
         
         // says it all
+        if checkInputSignUp(fullName: fullName.text!, email: email.text!, password: passwordSP.text!) == false{
+            let signUP = storyboard?.instantiateViewController(identifier: "signUP");
+            present(showPopUp(check: "emptySignUp"), animated: true, completion: nil);
+            present(signUP!, animated: false, completion: nil);
+        }
+        
         if checkEmail(email: email.text!){
         
             let signUP = storyboard?.instantiateViewController(identifier: "signUP");
