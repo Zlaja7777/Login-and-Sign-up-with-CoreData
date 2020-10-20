@@ -1,1 +1,1 @@
-#Login-and-Sign-up-with-CoreData
+Login and sign up using CoreData.
